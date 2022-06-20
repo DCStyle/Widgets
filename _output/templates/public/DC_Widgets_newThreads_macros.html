@@ -1,0 +1,103 @@
+<xf:macro name="narrow1" arg-thread="!" arg-titleLimit="!">
+	<xf:css src="DC_Widgets_newThreads.less" />
+	
+	<div class="thread_item narrow1" id="item-{$thread.thread_id}">
+		<a href="{{ link('threads', $thread) }}" title="{$thread.title}" class="wrapper">
+			<div class="thumb">
+				<div class="thumbnail" style="background-image: url({$thread.getThumbnail()})"></div>
+			</div>
+			<div class="content">
+				<div class="title">
+					{{ snippet($thread.title, $titleLimit) }}
+				</div>
+				<div class="info">
+					<xf:date time="$thread.post_date" />
+				</div>
+			</div>
+		</a>
+	</div>
+</xf:macro>
+
+<xf:macro name="narrow2" arg-thread="!" arg-titleLimit="!">
+	<xf:css src="DC_Widgets_newThreads.less" />
+	
+	<div class="thread_item narrow2" id="item-{$thread.thread_id}">
+		<a href="{{ link('threads', $thread) }}" title="{$thread.title}" class="wrapper">
+			<div class="thumb">
+				<div class="thumbnail" style="background-image: url({$thread.getThumbnail()});"></div>
+			</div>
+			<div class="content">
+				<div class="info">
+					{$thread.Forum.Node.title}
+				</div>
+				<div class="title">
+					{{ snippet($thread.title, $titleLimit) }}
+				</div>
+			</div>
+		</a>
+	</div>
+</xf:macro>
+
+<xf:macro name="wide1" arg-thread="!" arg-titleLimit="!">
+	<xf:css src="DC_Widgets_newThreads.less" />
+	
+	<div class="thread_item wide1" id="item-{$thread.thread_id}">
+		<a href="{{ link('threads', $thread) }}" title="{$thread.title}" class="wrapper">
+			<div class="thumb">
+				<div class="thumbnail" style="background-image: url({$thread.getThumbnail()});"></div>
+			</div>
+			<div class="content">
+				<div class="title">
+					{{ snippet($thread.title, $titleLimit) }}
+				</div>
+				<div class="info">
+					<span class="username">{$thread.User.username}</span>
+					<span class="time"><xf:fa icon="fa-clock" /> <xf:date time="$thread.post_date" /></span>
+				</div>
+			</div>
+		</a>
+	</div>
+</xf:macro>
+
+<xf:macro name="wide2" arg-thread="!" arg-titleLimit="!">
+	<xf:css src="DC_Widgets_newThreads.less" />
+	
+	<div class="thread_item wide2" id="item-{$thread.thread_id}">
+		<a href="{{ link('threads', $thread) }}" title="{$thread.title}" class="wrapper">
+			<div class="thumb">
+				<div class="thumbnail" style="background-image: url({$thread.getThumbnail()});"></div>
+			</div>
+			<div class="content">
+				<div class="title">
+					{{ snippet($thread.title, $titleLimit) }}
+				</div>
+				<div class="info">
+					<span class="forum">{$thread.Forum.Node.title}</span> - <xf:date time="$thread.post_date" />
+				</div>
+				<div class="desc">
+					{{ snippet($thread.FirstPost.message, 150, {'stripBbCode': true}) }}
+				</div>
+			</div>
+		</a>
+	</div>
+</xf:macro>
+
+<xf:macro name="slide" arg-thread="!" arg-titleLimit="!">
+	<xf:css src="DC_Widgets_newThreads.less" />
+	
+	<div class="thread_item slide swiper-slide" id="item-{$thread.thread_id}">
+		<a href="{{ link('threads', $thread) }}" title="{$thread.title}" class="wrapper">
+			<div class="thumb">
+				<div class="thumbnail" style="background-image: url({$thread.getThumbnail()});"></div>
+			</div>
+			<div class="content">
+				<div class="title">
+					{{ snippet($thread.title, $titleLimit) }}
+				</div>
+				<div class="info">
+					<span class="forum">{$thread.Forum.Node.title}</span> - <xf:date time="$thread.post_date" />
+				</div>
+			</div>
+		</a>
+	</div>
+</xf:macro>

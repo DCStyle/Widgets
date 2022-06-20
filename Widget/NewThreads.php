@@ -70,113 +70,33 @@ class NewThreads extends AbstractWidget
 
 		$router = $this->app->router('public');
 
-		/** @var \XF\Repository\Thread $threadRepo */
-		$threadRepo = $this->repository('XF:Thread');
+		$widgetThreadsRepo = $this->getWidgetThreadsRepo();
 
-        if ($type == 'latestThreads')
-        {
-            /** @var \XF\Finder\Thread $threadFinder */
-            $threadFinder = \XF::finder('XF:Thread')
-                ->with(['Forum', 'User'])
-                ->where('discussion_state', 'visible')
-                ->where('discussion_type', '<>', 'redirect');
-        } 
-        elseif ($type == 'latestReplies')
-        {
-            /** @var \XF\Finder\Thread $threadFinder */
-            $threadFinder = \XF::finder('XF:Thread')
-                ->with(['Forum', 'User'])
-                ->where('Forum.find_new', true)
-                ->where('discussion_state', 'visible')
-                ->where('discussion_type', '<>', 'redirect')
-                ->where('last_post_date', '>', $this->getReadMarkingCutOff())
-                ->where('reply_count', '>', 0)
-                ->indexHint('FORCE', 'last_post_date');
-        } 
-        elseif ($type == 'latestUnread')
-        {
-            /** @var \XF\Finder\Thread $threadFinder */
-            $threadFinder = \XF::finder('XF:Thread')
-                ->with(['Forum', 'User'])
-                ->where('Forum.find_new', true)
-                ->where('discussion_state', 'visible')
-                ->where('discussion_type', '<>', 'redirect')
-                ->where('last_post_date', '>', $this->getReadMarkingCutOff())
-                ->where('reply_count', '>', 0)
-                ->indexHint('FORCE', 'last_post_date');
-            
-            $userId = \XF::visitor()->user_id;
-
-            if ($userId)
-            {
-                $threadFinder->unreadOnly($userId);
-            }
-        } 
-        elseif ($type == 'latestWatched')
-        {
-            $threadFinder = $threadRepo->findThreadsForWatchedList();
-        }
+        $threadFinder = $widgetThreadsRepo->getThreadFinder($type, $limit);
 		
         $title = \XF::phrase('latest_threads');
-        if ($titleLink)
-        {
-            $link = $titleLink;
-        } 
-        else 
-        {
-            $link = $router->buildLink('whats-new');
-        }
-
-		$threadFinder
-            ->with('Forum.Node.Permissions|' . $visitor->permission_combination_id)
-            ->where('discussion_state', 'visible')
-			->where('discussion_type', '<>', 'redirect')
-            ->limit(max($limit * 4, 20));
+        $link = $titleLink ?: $router->buildLink('whats-new');
         
         if ($source == 'current' || $source == 'currentChild')
         {
+            // If current page is thread view
             if (isset($this->contextParams['thread']))
             {
                 $thread = $this->contextParams['thread'];
-                $forum = $thread->Forum;
                 $threadFinder->where('thread_id', '<>', $thread->thread_id);
 
-                if ($source == 'currentChild')
-                {
-                    /** @var \XF\Repository\Node $nodeRepo */
-                    $nodeRepo = $this->app->repository('XF:Node');
-                    $children = $nodeRepo->findChildren($forum->Node)->fetch();
-                    $childrenIds = [$forum->Node->node_id];
-                    if($children->count())
-                        foreach($children as $child)
-                            $childrenIds[] = $child->node_id;
-                    
-                    $threadFinder->whereOr([["node_id", $childrenIds]]);
-                } 
-                else 
-                {
-                    $threadFinder->where('node_id', $forum->node_id);
-                }
+                $nodeIds = $widgetThreadsRepo->getNodeIdsByThread($source, $thread);
+
+                $threadFinder->where('node_id', $nodeIds);
             } 
+            // If current page is forum view
             elseif (isset($this->contextParams['forum']))
             {
                 $forum = $this->contextParams['forum'];
-                if ($source == 'currentChild')
-                {
-                    /** @var \XF\Repository\Node $nodeRepo */
-                    $nodeRepo = $this->app->repository('XF:Node');
-                    $children = $nodeRepo->findChildren($forum->Node)->fetch();
-                    $childrenIds = [$forum->Node->node_id];
-                    if($children->count())
-                        foreach($children as $child)
-                            $childrenIds[] = $child->node_id;
-                    
-                    $threadFinder->whereOr([["node_id", $childrenIds]]);
-                } 
-                else 
-                {
-                    $threadFinder->where('node_id', $forum->node_id);
-                }
+                
+                $nodeIds = $widgetThreadsRepo->getNodeIdsByForum($source, $forum);
+
+                $threadFinder->where('node_id', $nodeIds);
             }
         } 
         else 
@@ -189,17 +109,20 @@ class NewThreads extends AbstractWidget
 
         if ($threadUser == 'current')
         {
+            // If current page is thread view
             if (isset($this->contextParams['thread']))
             {
                 $thread = $this->contextParams['thread'];
                 $user = $thread->User;
+
                 $threadFinder->where('user_id', $user->user_id);
             }
-            else 
+            // If current page is member view
+            elseif (isset($this->contextParams['user']))
             {
                 $user = $this->contextParams['user'];
-                $memberId = $user->user_id;
-                $threadFinder->where('user_id', $memberId);
+
+                $threadFinder->where('user_id', $user->user_id);
             }
         } 
         elseif ($threadUser == 'custom')
@@ -207,19 +130,9 @@ class NewThreads extends AbstractWidget
             $threadFinder->where('username', $username);
         }
 
-        if ($sticky == 'yes')
-        {
-            $threadFinder->where('sticky', 1);
-        } 
-        elseif ($sticky == 'no')
-        {
-            $threadFinder->where('sticky', 0);
-        }
+        $threadFinder->where('sticky', $sticky == 'yes' ? 1 : 0);
 
-        if ($promoteOnly == 'yes')
-        {
-            $threadFinder->where('widgetPromoted', 1);
-        }
+        $threadFinder->where('widgetPromoted', $promoteOnly == 'yes' ? 1 : 0);
 
         if ($order == 'date')
         {
@@ -227,15 +140,21 @@ class NewThreads extends AbstractWidget
         }
         elseif ($order == 'reactions')
         {
-            $threadFinder->where('first_post_reaction_score', '>', 0)->order('first_post_reaction_score', 'DESC');
+            $threadFinder
+                ->where('first_post_reaction_score', '>', 0)
+                ->order('first_post_reaction_score', 'DESC');
         } 
         elseif ($order == 'replies')
         {
-            $threadFinder->where('reply_count', '>', 0)->order('reply_count', 'DESC');
+            $threadFinder
+                ->where('reply_count', '>', 0)
+                ->order('reply_count', 'DESC');
         } 
         elseif ($order == 'views')
         {
-            $threadFinder->where('view_count', '>', 0)->order('view_count', 'DESC');
+            $threadFinder
+                ->where('view_count', '>', 0)
+                ->order('view_count', 'DESC');
         } 
         elseif ($promoteOnly == 'yes' && $order == 'promote_date')
         {
@@ -248,14 +167,9 @@ class NewThreads extends AbstractWidget
             $now = $date->getTimestamp();
             $optionsDays = $customTime * 86400;
             $days = $now - $optionsDays;
+
             $threadFinder->where('post_date', '>=', $days);
         }
-
-        $threadFinder
-            ->with('fullForum')
-            ->with('FirstPost')
-            ->with('LastPoster')
-            ->withReadData();
 
 		/** @var \XF\Entity\Thread $thread */
 		foreach ($threads = $threadFinder->fetch() AS $threadId => $thread)
@@ -269,14 +183,7 @@ class NewThreads extends AbstractWidget
         }
         $threads = $threads->slice(0, $limit, true);
         
-        if ($widgetTypes == 'custom')
-        {
-            $template = $options['template'];
-        } 
-        else
-        {
-            $template = 'DC_Widgets_newThreads_widget';
-        }
+        $template = $widgetTypes == 'custom' ? $options['template'] : 'DC_Widgets_newThreads_widget';
 
 		$viewParams = [
             'widgetTypes' => $widgetTypes,
@@ -348,8 +255,11 @@ class NewThreads extends AbstractWidget
 		return true;
 	}
 
-    public function getReadMarkingCutOff()
-	{
-		return \XF::$time - \XF::options()->readMarkingDataLifetime * 86400;
-	}
+    /**
+     * @return \DC\Widgets\Repository\Threads
+     */
+    protected function getWidgetThreadsRepo()
+    {
+        return $this->repository('DC\Widgets:Threads');
+    }
 }
