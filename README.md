@@ -13,7 +13,7 @@ List of additional widgets (updating)
 ** Note: Requires _D.C Style – Thumbnail_ to display thumbnail.
 
 # Random Threads (v1.0.0 beta 2)
-- Same functions as _[D.C Style] New Threads widget
+- Same functions as _[D.C Style] New Threads widget_
 
 # Facebook Fanpage
 - Display Facebook Fanpage with some built-in settings
