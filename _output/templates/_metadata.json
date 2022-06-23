@@ -1,4 +1,9 @@
 {
+    "admin/widget_def_options_DC_Widgets_newThreads.html": {
+        "version_id": 1010270,
+        "version_string": "1.1.2",
+        "hash": "c506e81895e7ec8cd0e886902208c9d4"
+    },
     "public/DC_Widgets_newThreads_macros.html": {
         "version_id": 1010170,
         "version_string": "1.1.1",

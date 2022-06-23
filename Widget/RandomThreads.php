@@ -128,7 +128,10 @@ class RandomThreads extends AbstractWidget
 
         $threadFinder->where('sticky', $sticky == 'yes' ? 1 : 0);
 
-        $threadFinder->where('widgetPromoted', $promoteOnly == 'yes' ? 1 : 0);
+        if ($promoteOnly == 'yes')
+        {
+            $threadFinder->where('widgetPromoted', 1);
+        }
 
         if ($timeLapse == 'custom')
         {

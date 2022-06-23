@@ -132,18 +132,27 @@ class NewThreads extends AbstractWidget
 
         $threadFinder->where('sticky', $sticky == 'yes' ? 1 : 0);
 
-        $threadFinder->where('widgetPromoted', $promoteOnly == 'yes' ? 1 : 0);
+        if ($promoteOnly == 'yes')
+        {
+            $threadFinder->where('widgetPromoted', 1);
+        }
 
         if ($order == 'date')
         {
             $threadFinder->order('post_date', 'DESC');
+        }
+        elseif ($order == 'last_post_date')
+        {
+            $threadFinder
+                ->where('reply_count', '>', 0)
+                ->order('last_post_date', 'DESC');
         }
         elseif ($order == 'reactions')
         {
             $threadFinder
                 ->where('first_post_reaction_score', '>', 0)
                 ->order('first_post_reaction_score', 'DESC');
-        } 
+        }
         elseif ($order == 'replies')
         {
             $threadFinder
