@@ -77,7 +77,7 @@ class Threads extends Repository
         if ($source == 'currentChild')
         {
             /** @var \XF\Repository\Node $nodeRepo */
-            $nodeRepo = $this->app->repository('XF:Node');
+            $nodeRepo = $this->app()->repository('XF:Node');
 
             $children = $nodeRepo->findChildren($forum->Node)->fetch();
 

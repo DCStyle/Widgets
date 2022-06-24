@@ -182,7 +182,8 @@ class RandomThreads extends AbstractWidget
             'titleLink' => 'str',
             'source' => 'str',
             'threadUser' => 'str',
-            'username' => 'str'
+            'username' => 'str',
+            'threadTitleLimit' => 'uint'
 		]);
 
 		if (in_array(0, $options['node_ids']))
