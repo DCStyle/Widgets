@@ -126,7 +126,10 @@ class RandomThreads extends AbstractWidget
             $threadFinder->where('username', $username);
         }
 
-        $threadFinder->where('sticky', $sticky == 'yes' ? 1 : 0);
+        if ($sticky != 'none')
+        {
+            $threadFinder->where('sticky', $sticky == 'yes' ? 1 : 0);
+        }
 
         if ($promoteOnly == 'yes')
         {
