@@ -1,0 +1,82 @@
+<hr class="formRowSep" />
+
+<xf:numberboxrow name="options[limit]" value="{$options.limit}" min="1"
+	label="{{ phrase('maximum_entries') }}" />
+
+<xf:radiorow name="options[source]" 
+			 value="{$options.source}" 
+			 label="{{ phrase('threads_sources') }}"
+			 explain="{{ phrase('only_include_threads_in_selected_forums') }}">
+	<xf:option value="current" checked="checked">{{ phrase('current_forum') }}</xf:option>
+	<xf:option value="currentChild">{{ phrase('current_forum_and_its_child_nodes') }}</xf:option>
+	<xf:option value="custom" label="{{ phrase('custom') }}">
+		
+			<xf:select name="options[node_ids][]" value="{{ $options.node_ids ?: '' }}" multiple="multiple" size="7">
+
+				<xf:option value="">{{ phrase('all_forums') }}</xf:option>
+				<xf:foreach loop="$nodeTree.getFlattened(0)" value="$treeEntry">
+					<xf:option value="{$treeEntry.record.node_id}" disabled="{{ $treeEntry.record.node_type_id != 'Forum' }}">
+						{{ repeat('&nbsp;&nbsp;', $treeEntry.depth)|raw }} {$treeEntry.record.title}
+					</xf:option>
+				</xf:foreach>
+			</xf:select>
+		
+	</xf:option>
+</xf:radiorow>
+
+<xf:numberboxrow name="options[threadTitleLimit]" 
+				 label="{{ phrase('thread_title_limit') }}"
+				 value="{$options.threadTitleLimit}" 
+				 min="50"
+				 units="{{ phrase('characters') }}" />
+
+<xf:radiorow name="options[threadUser]" value="{$options.threadUser}" 
+			 label="{{ phrase('threads_user') }}"
+			 explain="{{ phrase('threads_user_explain') }}">
+	<xf:option value="all" checked="checked">{{ phrase('all_users') }}</xf:option>
+	<xf:option value="current">{{ phrase('current_user') }}</xf:option>
+	<xf:option value="custom" label="{{ phrase('custom_user') }}">
+		<xf:textbox name="options[username]" value="{$options.username}" ac="single" autocomplete="on"
+				maxlength="{{ max_length($xf.visitor, 'username') }}"
+				placeholder="{{ phrase('username') }}..." />
+	</xf:option>
+</xf:radiorow>
+
+<xf:textboxrow name="options[titleLink]" 
+			   value="{$options.titleLink}" 
+			   label="{{ phrase('widget_title_link') }}" />
+
+<xf:radiorow name="options[widgetTypes]" value="{$options.widgetTypes}" label="{{ phrase('widget_types') }}" explain="{{ phrase('choose_widget_template_types_explain') }}">
+	<xf:option value="default" checked="checked">{{ phrase('default') }}</xf:option>
+	<xf:option value="narrow1">{{ phrase('narrow') }} 1</xf:option>
+	<xf:option value="narrow2">{{ phrase('narrow') }} 2</xf:option>
+	<xf:option value="wide1">{{ phrase('wide') }} 1</xf:option>
+	<xf:option value="wide2">{{ phrase('wide') }} 2</xf:option>
+	<xf:option value="slide" label="{{ phrase('slide') }}">
+		<xf:radio name="options[slideTypes]" value="{$options.slideTypes}" label="{{ phrase('choose_slide_types') }}">
+			<xf:option value="slideNarrow" checked="checked">{{ phrase('slide') }} {{ phrase('narrow') }}</xf:option>
+			<xf:option value="slideWide">{{ phrase('slide') }} {{ phrase('wide') }}</xf:option>
+		</xf:radio>
+	</xf:option>
+	<xf:option value="custom" label="{{ phrase('custom') }}">
+		<xf:textbox name="options[template]" value="{$options.template}" placeholder="DC_Widgets_newThreads_default" />
+	</xf:option>
+</xf:radiorow>
+
+<xf:selectrow name="options[sticky]" value="{$options.sticky}" label="{{ phrase('sticky_threads') }}">
+	<xf:option value="none" checked="checked" hint="{{ phrase('select_both_sticky_and_non_sticky_threads') }}">{{ phrase('none') }}</xf:option>
+	<xf:option value="yes" hint="{{ phrase('only_select_sticky_threads') }}">{{ phrase('yes') }}</xf:option>
+	<xf:option value="no" hint="{{ phrase('only_select_non_sticky_threads') }}">{{ phrase('no') }}</xf:option>
+</xf:selectrow>
+
+<xf:selectrow name="options[promoteOnly]" value="{$options.promoteOnly}" label="{{ phrase('promote_threads_only') }}">
+	<xf:option value="no" checked="checked">{{ phrase('no') }}</xf:option>
+	<xf:option value="yes">{{ phrase('yes') }}</xf:option>
+</xf:selectrow>
+
+<xf:radiorow name="options[timeLapse]" value="{$options.timeLapse}" label="{{ phrase('time_lapse') }} (days)">
+	<xf:option value="allTime" checked="checked">{{ phrase('all_time') }}</xf:option>
+	<xf:option value="custom" label="{{ phrase('custom') }}">
+		<xf:numberbox name="options[customTime]" value="{$options.customTime}" />
+	</xf:option>
+</xf:radiorow>
