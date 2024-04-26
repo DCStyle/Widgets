@@ -139,4 +139,35 @@ class Threads extends Repository
 	{
 		return \XF::$time - \XF::options()->readMarkingDataLifetime * 86400;
 	}
+
+	public function getThreadIdsWithTags($tags)
+	{
+		$tags = (array) $tags;
+
+		$tagIds = [];
+		foreach($tags AS $tag)
+		{
+			$tag = trim($tag);
+
+			$tagFinder = $this->finder('XF:Tag');
+
+			$tagIds[] = $tagFinder
+				->where('tag', 'LIKE', $tagFinder->escapeLike($tag))
+				->pluckFrom('tag_id')
+				->fetchOne();
+		}
+
+		if (empty($tagIds))
+		{
+			return [];
+		}
+
+		return $this->finder('XF:TagContent')
+			->where('tag_id', $tagIds)
+			->where('content_type', 'thread')
+			->order('add_date', 'DESC')
+			->pluckFrom('content_id')
+			->fetch()
+			->toArray();
+	}
 }
