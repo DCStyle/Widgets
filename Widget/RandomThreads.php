@@ -25,6 +25,7 @@ class RandomThreads extends AbstractWidget
         'username' => '',
         'sticky' => 'none',
         'promoteOnly' => 'no',
+	    'tags' => [],
         'timeLapse' => 'alltime',
         'customTime' => 1,
         'widgetTypes' => 'narrow1',
@@ -51,6 +52,7 @@ class RandomThreads extends AbstractWidget
         $options = $this->options;
         $sticky = $options['sticky'];
         $promoteOnly = $options['promoteOnly'];
+	    $tags = $options['tags'];
         $threadTitleLimit = $options['threadTitleLimit'];
         $limit = $options['limit'];
         $timeLapse = $options['timeLapse'];
@@ -61,7 +63,6 @@ class RandomThreads extends AbstractWidget
         $username = $options['username'];
         $widgetTypes = $options['widgetTypes'];
         $slideTypes = $options['slideTypes'];
-        $template = $options['template'];
         $titleLink = $options['titleLink'];
 
         $router = $this->app->router('public');
@@ -72,6 +73,17 @@ class RandomThreads extends AbstractWidget
 		
         $title = \XF::phrase('latest_threads');
         $link = $titleLink ?: $router->buildLink('whats-new');
+
+	    if (!empty($tags))
+	    {
+		    $threadIdsWithTags = $widgetThreadsRepo->getThreadIdsWithTags($tags);
+		    if (empty($threadIdsWithTags))
+		    {
+			    return '';
+		    }
+
+		    $threadFinder->whereIds($threadIdsWithTags);
+	    }
 
         if ($source == 'current' || $source == 'currentChild')
         {
@@ -177,6 +189,7 @@ class RandomThreads extends AbstractWidget
             'node_ids' => 'array-uint',
             'sticky' => 'str',
             'promoteOnly' => 'str',
+			'tags' => 'str',
             'timeLapse' => 'str',
             'customTime' => 'uint',
             'widgetTypes' => 'str',
@@ -217,6 +230,17 @@ class RandomThreads extends AbstractWidget
 		{
 			$options['template'] = 'DC_Widgets_newThreads_default';
 		}
+
+		$tags = explode(',', $options['tags']);
+		foreach($tags AS $key => $tag)
+		{
+			$tag = trim($tag);
+			if ($tag == '')
+			{
+				unset($tags[$key]);
+			}
+		}
+		$options['tags'] = $tags;
 		
 		return true;
 	}

@@ -26,6 +26,7 @@ class NewThreads extends AbstractWidget
         'type' => 'latestThreads',
         'sticky' => 'none',
         'promoteOnly' => 'no',
+	    'tags' => [],
         'order' => 'date',
         'timeLapse' => 'alltime',
         'customTime' => 1,
@@ -55,6 +56,7 @@ class NewThreads extends AbstractWidget
         $type = $options['type'];
         $sticky = $options['sticky'];
         $promoteOnly = $options['promoteOnly'];
+		$tags = $options['tags'];
         $order = $options['order'];
         $limit = $options['limit'];
         $timeLapse = $options['timeLapse'];
@@ -65,7 +67,6 @@ class NewThreads extends AbstractWidget
         $username = $options['username'];
         $widgetTypes = $options['widgetTypes'];
         $slideTypes = $options['slideTypes'];
-        $template = $options['template'];
         $titleLink = $options['titleLink'];
 
 		$router = $this->app->router('public');
@@ -76,6 +77,17 @@ class NewThreads extends AbstractWidget
 		
         $title = \XF::phrase('latest_threads');
         $link = $titleLink ?: $router->buildLink('whats-new');
+
+		if (!empty($tags))
+		{
+			$threadIdsWithTags = $widgetThreadsRepo->getThreadIdsWithTags($tags);
+			if (empty($threadIdsWithTags))
+			{
+				return '';
+			}
+
+			$threadFinder->whereIds($threadIdsWithTags);
+		}
         
         if ($source == 'current' || $source == 'currentChild')
         {
@@ -218,6 +230,7 @@ class NewThreads extends AbstractWidget
             'type' => 'str',
             'sticky' => 'str',
             'promoteOnly' => 'str',
+			'tags' => 'str',
             'order' => 'str',
             'timeLapse' => 'str',
             'customTime' => 'uint',
@@ -263,6 +276,17 @@ class NewThreads extends AbstractWidget
         {
             $options['order'] = 'date';
         }
+
+		$tags = explode(',', $options['tags']);
+		foreach($tags AS $key => $tag)
+		{
+			$tag = trim($tag);
+			if ($tag == '')
+			{
+				unset($tags[$key]);
+			}
+		}
+		$options['tags'] = $tags;
 		
 		return true;
 	}
