@@ -1,0 +1,10 @@
+{
+    "parent_navigation_id": "logsContent",
+    "display_order": 1000,
+    "link": "logs/widget-action",
+    "icon": "",
+    "admin_permission_id": "",
+    "debug_only": false,
+    "development_only": false,
+    "hide_no_children": false
+}

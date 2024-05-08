@@ -69,10 +69,31 @@
 	<xf:option value="no" hint="{{ phrase('only_select_non_sticky_threads') }}">{{ phrase('no') }}</xf:option>
 </xf:selectrow>
 
-<xf:selectrow name="options[promoteOnly]" value="{$options.promoteOnly}" label="{{ phrase('promote_threads_only') }}">
+<xf:radiorow name="options[promoteOnly]" 
+			 value="{$options.promoteOnly}" 
+			 label="{{ phrase('promote_threads_only') }}">
+	
 	<xf:option value="no" checked="checked">{{ phrase('no') }}</xf:option>
-	<xf:option value="yes">{{ phrase('yes') }}</xf:option>
-</xf:selectrow>
+	<xf:option value="yes"
+			   data-hide="true"
+			   data-xf-init="disabler"
+			   data-container=".js-widget-promoteOnly">
+		{{ phrase('yes') }}
+	</xf:option>
+</xf:radiorow>
+
+<div class="js-widget-promoteOnly">
+	<xf:selectrow name="options[promotableUserGroups][]" 
+				  value="{{ $options.promotableUserGroups ?: '' }}"
+				  multiple="multiple" 
+				  size="7" 
+				  label="{{ phrase('promotable_user_groups') }}"
+				  explain="{{ phrase('promotable_user_groups_explain') }}">
+		<xf:foreach loop="$userGroupOptions" key="$userGroupId" value="$optionData">
+			<xf:option value="{$userGroupId}" label="{$optionData.label}" />
+		</xf:foreach>
+	</xf:selectrow>
+</div>
 
 <xf:radiorow name="options[timeLapse]" value="{$options.timeLapse}" label="{{ phrase('time_lapse') }} (days)">
 	<xf:option value="allTime" checked="checked">{{ phrase('all_time') }}</xf:option>

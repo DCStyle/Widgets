@@ -25,6 +25,7 @@ class RandomThreads extends AbstractWidget
         'username' => '',
         'sticky' => 'none',
         'promoteOnly' => 'no',
+	    'promotableUserGroups' => [],
 	    'tags' => [],
         'timeLapse' => 'alltime',
         'customTime' => 1,
@@ -41,6 +42,10 @@ class RandomThreads extends AbstractWidget
 			/** @var \XF\Repository\Node $nodeRepo */
             $nodeRepo = $this->app->repository('XF:Node');
 			$params['nodeTree'] = $nodeRepo->createNodeTree($nodeRepo->getFullNodeList());
+
+			/** @var \XF\Repository\UserGroup $userGroupRepo */
+			$userGroupRepo = \XF::repository('XF:UserGroup');
+			$params['userGroupOptions'] = $userGroupRepo->getUserGroupOptionsData(true, 'option');
 		}
 		return $params;
     }
@@ -52,6 +57,7 @@ class RandomThreads extends AbstractWidget
         $options = $this->options;
         $sticky = $options['sticky'];
         $promoteOnly = $options['promoteOnly'];
+	    $promotableUserGroups = $options['promotableUserGroups'];
 	    $tags = $options['tags'];
         $threadTitleLimit = $options['threadTitleLimit'];
         $limit = $options['limit'];
@@ -69,20 +75,14 @@ class RandomThreads extends AbstractWidget
 
 		$widgetThreadsRepo = $this->getWidgetThreadsRepo();
 
-        $threadFinder = $widgetThreadsRepo->getThreadFinder('random', $limit);
+	    $threadFinder = $widgetThreadsRepo->getThreadFinderForWidget('random', $limit);
 		
         $title = \XF::phrase('latest_threads');
         $link = $titleLink ?: $router->buildLink('whats-new');
 
 	    if (!empty($tags))
 	    {
-		    $threadIdsWithTags = $widgetThreadsRepo->getThreadIdsWithTags($tags);
-		    if (empty($threadIdsWithTags))
-		    {
-			    return '';
-		    }
-
-		    $threadFinder->whereIds($threadIdsWithTags);
+		    $threadFinder->isTagged($tags);
 	    }
 
         if ($source == 'current' || $source == 'currentChild')
@@ -145,7 +145,7 @@ class RandomThreads extends AbstractWidget
 
         if ($promoteOnly == 'yes')
         {
-            $threadFinder->where('widgetPromoted', 1);
+            $threadFinder->isPromotedToWidget($this->getWidgetConfig()->widgetId);
         }
 
         if ($timeLapse == 'custom')
@@ -189,6 +189,7 @@ class RandomThreads extends AbstractWidget
             'node_ids' => 'array-uint',
             'sticky' => 'str',
             'promoteOnly' => 'str',
+			'promotableUserGroups' => 'array-uint',
 			'tags' => 'str',
             'timeLapse' => 'str',
             'customTime' => 'uint',
@@ -229,6 +230,11 @@ class RandomThreads extends AbstractWidget
         if ($options['template'] == '' && $options['widgetTypes'] == 'custom')
 		{
 			$options['template'] = 'DC_Widgets_newThreads_default';
+		}
+
+		if (in_array(0, $options['promotableUserGroups']))
+		{
+			$options['promotableUserGroups'] = [0];
 		}
 
 		$tags = explode(',', $options['tags']);

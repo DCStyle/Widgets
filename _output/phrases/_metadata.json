@@ -1,0 +1,278 @@
+{
+    "action_date.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "19d38f37055a56d17718b1cb5b74e321"
+    },
+    "admin_navigation.widgetActionLog.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "23f2d83610618599b1c9ced37bc96ce4"
+    },
+    "all_promotable_widgets.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "9f7143586cd8d54c17bc5a787b4b20a5"
+    },
+    "create_thread_promotion_schedule.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "a9ad2782508a1f315e9e72ae0b6159a4"
+    },
+    "cron_entry.handleScheduledPromotions.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "a5e3e183587b7a6ed190316b76f82b8f"
+    },
+    "current_thread_promotion_schedule.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "987a248929086d3d4eed29bbf2dfc5d0"
+    },
+    "delete_promote_schedule.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "4e38184309153692380ec02c2b661f7b"
+    },
+    "disable_promote_schedule.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "c32c1a9b985a05e3f393396a540f911c"
+    },
+    "disable_promote_schedule_explain.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "e6ccace33b3e87e4b14f8e6cbb6f65fe"
+    },
+    "edit_thread_promote_target.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "15826d1787b47a442cd67d3518485c9e"
+    },
+    "edit_thread_promotion_schedule.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "e882eb3690e74142d81654682cbfd98b"
+    },
+    "edit_thread_widget_promote.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "9256489273e30c70e2bf10e1aec3d893"
+    },
+    "enable_promote_schedule.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "6c77594efda1ee705364a5440ea9be73"
+    },
+    "enable_promote_schedule_explain.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "a5f53c56b1539420de4eb8622506bc4e"
+    },
+    "from_date.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "710b389ba00c3e85da944c3e469bde7f"
+    },
+    "no_widget_actions_have_been_logged.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "ae255fa2275de5d8d97edacb41c4968a"
+    },
+    "permission.forum_widgetPromoteAny.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "b748b5ab773370f039cfa2f7febe7096"
+    },
+    "permission.forum_widgetPromoteSchedule.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "a7a84804897372e5bdee22d8382e9033"
+    },
+    "permission.forum_widgetPromoteTimeLimit.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "063c8586eb9d7f6e28eabe1efde0017d"
+    },
+    "permission.forum_widgetPromoteWidgetAll.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "05c324f5c26baa53d59e03aab3445ff9"
+    },
+    "promotable_user_groups.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "91f4ac340e4ce555b3492b68c42a514a"
+    },
+    "promotable_user_groups_explain.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "7e7a933d9cc4167f3e9197ca337f09fc"
+    },
+    "promote_schedule.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "b76b701c7b1deacefda6971359d468e4"
+    },
+    "promote_schedule_from_date_explain.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "2752b627056e01a078ddf4afb4b5b866"
+    },
+    "promote_schedule_started.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "2506a8261c8461972d3777d170d9cfd7"
+    },
+    "promote_schedule_to_date_explain.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "e17ef8c16ae27a66687f99f8c16212c4"
+    },
+    "set_thread_promote_target.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "46dba7f1b367efcb5d324e54fd2e95b8"
+    },
+    "specific_widgets.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "85f3b7989596d1855dd91d53e0f5754f"
+    },
+    "target_promote_widgets_is_empty.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "2af4f9cab6e81afb62b4eba82ca6c255"
+    },
+    "the_minimum_expiry_date_for_widget_promote_schedule_is_x_days.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "bc0c39c336b1c1b0175971083a267369"
+    },
+    "thread_author.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "498497a426e4abdb76f385a477aa0a07"
+    },
+    "thread_promote_target.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "430e376b1313b33dc4790b18d958fccc"
+    },
+    "to_date.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "6886bfd169ca6550e6236cb261af09e3"
+    },
+    "widget_action.create_schedule.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "1f9d357a92e66293b79d20d4db074927"
+    },
+    "widget_action.delete_schedule.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "12e932e1fa2cddfceb21e89cb0292711"
+    },
+    "widget_action.edit_promote.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "29a14e0d0f5f0a3274ec8e3271e523cd"
+    },
+    "widget_action.edit_schedule.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "c8d8ccfd73e81e178fe5cc8146ad8ef1"
+    },
+    "widget_action.promote.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "4a67d2c5bc11702515b5cab77a74ef2f"
+    },
+    "widget_action.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "0317b76a14ef45c2842d03e825ffef6d"
+    },
+    "widget_action.unpromote.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "518169317a01903acfd30f2aa5ee47c4"
+    },
+    "widget_action_log.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "23f2d83610618599b1c9ced37bc96ce4"
+    },
+    "widget_actions.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "681dff5830304c644d06204511a99a7e"
+    },
+    "you_have_to_unpromote_thread_to_set_promotion_schedule.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "92073af5cf3f95b9115c48659a8faf40"
+    },
+    "you_may_not_perform_this_action_because_no_promotable_widgets_available.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "a9640baab8e9d108ef0f939e7df7c551"
+    },
+    "you_may_not_perform_this_action_because_this_not_your_content.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "08049ee5208b56e9fc78756f931f1a5d"
+    },
+    "you_must_wait_at_least_x_minutes_between_promote_actions.txt": {
+        "global_cache": false,
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "f60d135d6bcbd8eef15579de1021696d"
+    }
+}

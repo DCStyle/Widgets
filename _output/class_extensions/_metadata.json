@@ -1,0 +1,14 @@
+{
+    "XF-Admin-Controller-Log_DC-Widgets-XF-Admin-Controller-Log.json": {
+        "hash": "d4fed5fa873d2c0c78102970ec1bf759"
+    },
+    "XF-Entity-Thread_DC-Widgets-XF-Entity-Thread.json": {
+        "hash": "30907862ce1f8f5e91fec116cecb0f45"
+    },
+    "XF-Finder-Thread_DC-Widgets-XF-Finder-Thread.json": {
+        "hash": "fe1eb968c959ef8b45df7dddf30edadc"
+    },
+    "XF-Pub-Controller-Thread_DC-Widgets-XF-Pub-Controller-Thread.json": {
+        "hash": "8a4a09df4295a8d5ae66d7272cbfa479"
+    }
+}

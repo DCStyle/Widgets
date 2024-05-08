@@ -1,0 +1,1 @@
+The minimum expiry date for the widget promote schedule is {days} days.

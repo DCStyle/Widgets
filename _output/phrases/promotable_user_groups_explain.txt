@@ -1,0 +1,2 @@
+If selected, users in these groups can promote their own threads (and others' threads if permitted) into this widget. 
+<br/>This applies also for users with permission to promote threads to all widgets.

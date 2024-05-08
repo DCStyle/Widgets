@@ -1,0 +1,136 @@
+<xf:if is="$promoteSchedule">
+	<xf:title>{{ phrase('edit_thread_promotion_schedule') }}</xf:title>
+<xf:elseif is="$thread.widgetPromoted is not empty" />
+	<xf:title>{{ phrase('edit_thread_widget_promote') }}</xf:title>
+<xf:else/>
+	<xf:title>{{ phrase('promote_thread') }}</xf:title>
+</xf:if>
+
+<xf:breadcrumb source="$thread.getBreadcrumbs()" />
+
+<xf:form action="{{ link('threads/widget-promote', $thread) }}" ajax="true" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:if is="!$promoteSchedule">
+				<xf:macro name="promote_target_options" 
+						  arg-promotableWidgets="{$promotableWidgets}"
+						  arg-isEdit="{{ $thread.widgetPromoted is not empty }}"
+						  arg-promoteTarget="{$promoteTarget}" 
+						  arg-specificWidgetIds="{$specificWidgetIds}" />
+			</xf:if>
+			
+			<xf:if is="$thread.canScheduleWidgetPromote()">
+				<xf:if is="!$promoteSchedule && $thread.widgetPromoted is not empty">
+					<xf:formrow>
+						{{ phrase('you_have_to_unpromote_thread_to_set_promotion_schedule') }}
+					</xf:formrow>
+				<xf:else/>	
+					<xf:radiorow name="promote_schedule[enabled]" label="{{ phrase('promote_schedule') }}">
+						<xf:option value="0"
+								   label="{{ $promoteSchedule ? phrase('delete_promote_schedule') : phrase('no') }}"
+								   hint="{{ $promoteSchedule ? phrase('disable_promote_schedule_explain') : '' }}"
+								   checked="{{ !$promoteSchedule }}" />
+
+						<xf:option value="1"
+								   label="{{ phrase('enable_promote_schedule') }}"
+								   hint="{{ phrase('enable_promote_schedule_explain') }}"
+								   checked="{{ $promoteSchedule }}"
+								   data-hide="true"
+								   data-xf-init="disabler"
+								   data-container=".js-widgetPromoteSchedule" />
+					</xf:radiorow>
+
+					<div class="js-widgetPromoteSchedule">
+						<xf:formrow>
+							<b>{{ $promoteSchedule ? phrase('edit_thread_promotion_schedule') : phrase('create_thread_promotion_schedule') }}</b>
+						</xf:formrow>
+
+						<xf:if is="$promoteSchedule && $promoteSchedule.is_started">
+							<xf:formrow label="{{ phrase('from_date') }}">
+								{{ phrase('promote_schedule_started') }}
+							</xf:formrow>
+
+							<xf:formrow label="{{ phrase('thread_promote_target') }}">
+								<ul class="listInline listInline--comma">
+									<xf:foreach loop="$promoteSchedule.target_promote_widgets" value="$widget"><xf:trim>
+										<li>{$widget.getTitle()}</li>
+										</xf:trim></xf:foreach>
+								</ul>
+							</xf:formrow>
+						<xf:else />	
+							<xf:dateinputrow name="promote_schedule[from_date]" 
+											 value="{{ $promoteSchedule.from_date ?: $xf.time }}"
+											 min="{$xf.time}"
+											 label="{{ phrase('from_date') }}"
+											 explain="{{ phrase('promote_schedule_from_date_explain') }}" />
+
+							<xf:if is="$promoteSchedule">
+								<xf:macro name="promote_target_options" 
+										  arg-promotableWidgets="{$promotableWidgets}"
+										  arg-promoteTarget="{$promoteTarget}" 
+										  arg-specificWidgetIds="{$specificWidgetIds}"
+										  arg-isEdit="{{ true }}"
+										  arg-includeNoneTarget="{{ false }}" />
+							</xf:if>
+						</xf:if>
+
+						<xf:dateinputrow name="promote_schedule[to_date]" 
+										 value="{{ $promoteSchedule.to_date ?: $xf.time }}"
+										 min="{$xf.time}"
+										 label="{{ phrase('to_date') }}"
+										 explain="{{ phrase('promote_schedule_to_date_explain') }}" />
+					</div>
+				</xf:if>
+			<xf:elseif is="$promoteSchedule" />
+				<xf:formrow>
+					<b>{{ phrase('current_thread_promotion_schedule') }}</b>
+				</xf:formrow>
+				
+				<xf:formrow label="{{ phrase('from_date') }}"
+							explain="{{ phrase('promote_schedule_from_date_explain') }}">
+					<xf:if is="$promoteSchedule.is_started">
+						{{ phrase('promote_schedule_started') }}
+					<xf:else/>
+						{{ date($promoteSchedule.from_date) }}
+					</xf:if>
+				</xf:formrow>
+				
+				<xf:formrow label="{{ phrase('to_date') }}"
+							explain="{{ phrase('promote_schedule_to_date_explain') }}">
+					{{ date($promoteSchedule.to_date) }}
+				</xf:formrow>
+			</xf:if>
+		</div>
+		
+		<xf:submitrow icon="save" />
+	</div>
+</xf:form>
+
+<xf:macro name="promote_target_options" 
+		  arg-promotableWidgets="!"
+		  arg-isEdit="{{ false }}"
+		  arg-includeNoneTarget="{{ true }}"
+		  arg-promoteTarget="none" 
+		  arg-specificWidgetIds="{{ [] }}">
+	
+	<xf:radiorow name="promote_target"
+				 label="{{ $isEdit ? phrase('edit_thread_promote_target') : phrase('set_thread_promote_target') }}"
+				 value="{$promoteTarget}">
+		
+		<xf:option value="all" label="{{ phrase('all_promotable_widgets') }}" />
+
+		<xf:option value="specific" label="{{ phrase('specific_widgets') }}">
+			<xf:dependent>
+				<xf:checkbox name="specific_widget_ids[]" value="{$specificWidgetIds}">
+					<xf:foreach loop="$promotableWidgets" key="$widgetId" value="$widget">
+						<xf:option value="{$widgetId}" label="{$widget.getTitle()}" />
+					</xf:foreach>
+				</xf:checkbox>
+			</xf:dependent>
+		</xf:option>
+
+		<xf:if is="$includeNoneTarget">
+			<xf:option value="none" label="{{ $isEdit ? phrase('unpromote_thread') : phrase('none') }}" />
+		</xf:if>
+	</xf:radiorow>
+</xf:macro>

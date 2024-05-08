@@ -1,0 +1,1 @@
+You must wait at least {minutes} minutes between promote actions (promote, edit promotion, create promotion schedule, or edit promotion schedule)

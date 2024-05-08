@@ -1,17 +1,27 @@
 {
+    "admin/dcWidgets_widget_action_list.html": {
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "2cb236e59b487bdf80c38a7a8902b693"
+    },
     "admin/widget_def_options_DC_Widgets_newThreads.html": {
-        "version_id": 1010270,
-        "version_string": "1.1.2",
-        "hash": "c506e81895e7ec8cd0e886902208c9d4"
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "26eed618562de17753e72e86a4374d94"
     },
     "admin/widget_def_options_DC_Widgets_randomThreads.html": {
-        "version_id": 1010372,
-        "version_string": "1.1.3 Patch Level 2",
-        "hash": "9cf592e0fc9f7ad775ca8c914a34236f"
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "66412548e6f577e15d37cc9092b971dd"
     },
     "public/DC_Widgets_newThreads_macros.html": {
         "version_id": 1010170,
         "version_string": "1.1.1",
         "hash": "11a1a6c90c369f6f2507db6011b08cf1"
+    },
+    "public/dcWidgets_thread_widget_promote.html": {
+        "version_id": 1010570,
+        "version_string": "1.1.5",
+        "hash": "3a6489884dde11a963450d9ddcdc2856"
     }
 }

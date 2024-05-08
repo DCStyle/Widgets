@@ -1,0 +1,48 @@
+<xf:title>{{ phrase('widget_action_log') }}</xf:title>
+
+<div class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:datalist data-xf-init="responsive-data-list">
+				<xf:datarow rowtype="header">
+					<xf:cell class="dataList-cell--min">&nbsp;</xf:cell>
+					<xf:cell>{{ phrase('user') }}</xf:cell>
+					<xf:cell>{{ phrase('action') }}</xf:cell>
+					<xf:cell>{{ phrase('thread') }}</xf:cell>
+					<xf:cell>{{ phrase('thread_author') }}</xf:cell>
+					<xf:cell>{{ phrase('action_date') }}</xf:cell>
+				</xf:datarow>
+
+				<xf:foreach loop="$widgetActions" value="$action">
+					<xf:datarow rowclass="dataList-row--noHover">
+						<xf:cell class="dataList-cell--min dataList-cell--image dataList-cell--imageSmall" href="{{ link('users', $action.User) }}">
+							<xf:avatar user="$action.User" size="s" href="" />
+						</xf:cell>
+						<xf:cell href="{{ link('users', $action.User) }}">
+							{$action.username}
+						</xf:cell>
+						<xf:cell>
+							{{ phrase_dynamic('widget_action.' . $action.action) }}
+						</xf:cell>
+						<xf:cell href="{{ $action.Thread ? link_type('public', 'threads', $action.Thread) : '' }}" target="_blank">
+							{$action.thread_title}
+						</xf:cell>
+						<xf:cell href="{{ ($action.Thread && $action.Thread.User) ? link('users', $action.Thread.User) : '' }}">
+							{$action.thread_username}
+						</xf:cell>
+						<xf:cell>
+							<xf:date time="{$action.action_date}" />
+						</xf:cell>
+					</xf:datarow>
+				<xf:else />
+					<xf:datarow>
+						<xf:cell colspan="7">{{ phrase('no_widget_actions_have_been_logged') }}</xf:cell>
+					</xf:datarow>
+				</xf:foreach>
+			</xf:datalist>
+		</div>
+	</div>
+	<xf:pagenav page="{$page}" perpage="{$perPage}" total="{$total}"
+		link="logs/widget-action"
+		wrapperclass="block-outer block-outer--after" />
+</div>

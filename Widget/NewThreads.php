@@ -26,6 +26,7 @@ class NewThreads extends AbstractWidget
         'type' => 'latestThreads',
         'sticky' => 'none',
         'promoteOnly' => 'no',
+	    'promotableUserGroups' => [],
 	    'tags' => [],
         'order' => 'date',
         'timeLapse' => 'alltime',
@@ -43,6 +44,10 @@ class NewThreads extends AbstractWidget
 			/** @var \XF\Repository\Node $nodeRepo */
             $nodeRepo = $this->app->repository('XF:Node');
 			$params['nodeTree'] = $nodeRepo->createNodeTree($nodeRepo->getFullNodeList());
+
+			/** @var \XF\Repository\UserGroup $userGroupRepo */
+			$userGroupRepo = \XF::repository('XF:UserGroup');
+			$params['userGroupOptions'] = $userGroupRepo->getUserGroupOptionsData(true, 'option');
 		}
 		return $params;
     }
@@ -56,6 +61,7 @@ class NewThreads extends AbstractWidget
         $type = $options['type'];
         $sticky = $options['sticky'];
         $promoteOnly = $options['promoteOnly'];
+		$promotableUserGroups = $options['promotableUserGroups'];
 		$tags = $options['tags'];
         $order = $options['order'];
         $limit = $options['limit'];
@@ -73,20 +79,14 @@ class NewThreads extends AbstractWidget
 
 		$widgetThreadsRepo = $this->getWidgetThreadsRepo();
 
-        $threadFinder = $widgetThreadsRepo->getThreadFinder($type, $limit);
+        $threadFinder = $widgetThreadsRepo->getThreadFinderForWidget($type, $limit);
 		
         $title = \XF::phrase('latest_threads');
         $link = $titleLink ?: $router->buildLink('whats-new');
 
 		if (!empty($tags))
 		{
-			$threadIdsWithTags = $widgetThreadsRepo->getThreadIdsWithTags($tags);
-			if (empty($threadIdsWithTags))
-			{
-				return '';
-			}
-
-			$threadFinder->whereIds($threadIdsWithTags);
+			$threadFinder->isTagged($tags);
 		}
         
         if ($source == 'current' || $source == 'currentChild')
@@ -149,7 +149,7 @@ class NewThreads extends AbstractWidget
 
         if ($promoteOnly == 'yes')
         {
-            $threadFinder->where('widgetPromoted', 1);
+            $threadFinder->isPromotedToWidget($this->getWidgetConfig()->widgetId);
         }
 
         if ($order == 'date')
@@ -187,10 +187,8 @@ class NewThreads extends AbstractWidget
 
         if ($timeLapse == 'custom')
         {
-            $date = new \DateTime();
-            $now = $date->getTimestamp();
             $optionsDays = $customTime * 86400;
-            $days = $now - $optionsDays;
+            $days = \XF::$time - $optionsDays;
 
             $threadFinder->where('post_date', '>=', $days);
         }
@@ -230,6 +228,7 @@ class NewThreads extends AbstractWidget
             'type' => 'str',
             'sticky' => 'str',
             'promoteOnly' => 'str',
+			'promotableUserGroups' => 'array-uint',
 			'tags' => 'str',
             'order' => 'str',
             'timeLapse' => 'str',
@@ -276,6 +275,11 @@ class NewThreads extends AbstractWidget
         {
             $options['order'] = 'date';
         }
+
+		if (in_array(0, $options['promotableUserGroups']))
+		{
+			$options['promotableUserGroups'] = [0];
+		}
 
 		$tags = explode(',', $options['tags']);
 		foreach($tags AS $key => $tag)
